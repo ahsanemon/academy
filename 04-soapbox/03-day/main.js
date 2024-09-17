@@ -5,7 +5,22 @@ const soapboxes = [
     { id: 'sports',  label: 'Sports'},
     { id: 'games',   label: 'Games'},
     { id: 'music',   label: 'Music'},
-]
+    { id: 'meh',   label: 'Meh'},
+];
+
+const escapeHtml = (s) => {
+    if (typeof s != 'string') {
+        return s;       
+    }
+
+    return s
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+    
+};
+
 const fetchData = async () => {
     // fetch data from the API endpoint
     // https://academy.will-industries.fr/project-api/04-soapbox/
@@ -35,24 +50,19 @@ const fetchData = async () => {
         if (!entry) {
             // No message found
             html += `<article>
-            <h1>${soapbox.label}</h1>
-            <div>(no message found)</div>
-        </article>`;
-        }
-        else {
-            html += `<article>
-            <h1>${soapbox.label}</h1>
-            <div>${entry.message}</div>
-            <address>${entry.author}</address>
-            <time datetime="2024-09-03">03 September 2024</time>
-        </article>`;
-        };
+                <h1>${soapbox.label}</h1>
+                <div>(no message found)</div>
+            </article>`;
 
-        // console.log(
-        //     'My soapbox:', 
-        //     soapbox.label,
-        //     data[soapbox.id]
-        // );       
+            continue;
+        }
+        
+        html += `<article>
+            <h1>${soapbox.label}</h1>
+            <div>${escapeHtml(entry.message)}</div>
+            <address>${escapeHtml(entry.author)}</address>
+            <time datetime="2024-09-03">03 September 2024</time>
+        </article>`;     
     }
     
     // add to page
@@ -73,10 +83,37 @@ const fetchData = async () => {
     // Create html for it and add it to the page, or modify the html
 };
 
-document.addEventListener('DOMContentLoaded', ()=> {
+const populateFormInputs = () => {
+    // // A:
+    // let html = '';
+
+    // for (const soapbox of soapboxes) {
+    //     html += `<option value="${soapbox.id}">${soapbox.label}</option>`;
+        
+    // }
+ 
+    // document.querySelector('select').innerHTML = html;
+
+    // B:
+    document.querySelector('select').innerHTML = soapboxes.map(
+        soapbox => `<option value="${soapbox.id}">${soapbox.label}</option>`
+    ).join('');
+
+    // // C:
+    // const arr = soapboxes.map((soapbox) => {
+    //     return `<option value="${soapbox.id}">${soapbox.label}</option>`;
+    // }).join('');
+
+
+};
+
+document.addEventListener('DOMContentLoaded', () => {
     fetchData();
+
     // polling
     setInterval(fetchData, 2 * 1000);
+    
+    populateFormInputs();
 
     document.querySelector('form').addEventListener('submit', async (event) => {
         // console.log(event);
@@ -85,7 +122,7 @@ document.addEventListener('DOMContentLoaded', ()=> {
         const data = new FormData(event.target);
         console.log(data);
         
-        const name = data.get('name');
+        const author = data.get('name');
         const message = data.get('message');
         const soapbox = data.get('soapbox');
         
@@ -100,9 +137,9 @@ document.addEventListener('DOMContentLoaded', ()=> {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    soapbox: soapbox,
-                    message: message,
-                    author: name,
+                    soapbox, //shorthand of  soapbox: soapbox,. Works only if the key and value variable name are same.
+                    message, //shorthand of  message: message,. Works only if the key and value variable name are same.
+                    author, //shorthand of  author: author,. Works only if the key and value variable name are same.
                 }),
             }
         );
@@ -115,20 +152,3 @@ document.addEventListener('DOMContentLoaded', ()=> {
 
     });
 });
-
-const functionA = () => {
-console.log('a');
-console.log('b');
-console.log('c');
-for (let i = 0; i < 100; i++) {
-    console.log('xx');
-}
-
-console.log('d');
-console.log('e');
-console.log('f');
-};
-
-const onClick = () => {
-    alert('Hello World!');
-};
