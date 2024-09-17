@@ -1,0 +1,10 @@
+form {
+    padding: 1em;
+
+}
+
+form label,
+form .submit-wrapper {
+    display: block;
+    padding: 0.4em 0;
+}

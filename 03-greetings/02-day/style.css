@@ -1,0 +1,65 @@
+body {
+    background: #6666ee;
+    height: 100vh;
+    margin: 0;
+    padding: 1em;
+    box-sizing: content-box;
+}
+
+/* 
+hight = margin + padding + 
+viewport - the frame that is displayed on the page
+vh - viewport hight
+*/
+.main {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 3em;
+    height: 100%;
+}
+
+.greeting {
+    color: yellow;
+    /* font-size: 4em; */
+    font-family: sans-serif;
+}
+
+.greeting-segment {
+    display: inline-block;
+    background: #ffffff33;
+    padding: 0.4em; /* em works on the font-size of the element, in this case 6 */
+    border-radius: 0.8rem; /* rem works on the font-size of the root */
+    color: yellow;
+    font-size: 4em;
+    font-family: sans-serif;
+    border: none;
+}
+
+.greeting-segment:hover {
+    background: #ffffff44;
+    
+}
+
+.greeting-segment:active {
+    background: #ffffff22;
+
+}
+.action-button {
+    background: #4444dd;
+    border: none;
+    color: white;
+    font-size: 2em;
+    padding: 0.4em 2em;
+}
+
+.action-button:hover {
+    background: #7777ee;
+
+}
+
+.action-button:active {
+    background: #4444cc;
+
+}
