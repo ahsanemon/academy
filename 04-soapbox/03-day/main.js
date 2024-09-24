@@ -47,6 +47,10 @@ const fetchData = async () => {
         // !![] -> true
         const entry = data[soapbox.id];
 
+
+        // tertiary operator
+        // expr ? if true : if false
+
         if (!entry) {
             // No message found
             html += `<article>
@@ -60,8 +64,8 @@ const fetchData = async () => {
         html += `<article>
             <h1>${soapbox.label}</h1>
             <div>${escapeHtml(entry.message)}</div>
-            <address>${escapeHtml(entry.author)}</address>
-            <time datetime="2024-09-03">03 September 2024</time>
+            <address>${entry.author ? '&mdash;' + escapeHtml(entry.author) : '(anonymous)'}</address>
+            <time datetime="${entry.date}">${new Date(entry.date).toLocaleString()}</time>
         </article>`;     
     }
     
@@ -95,8 +99,13 @@ const populateFormInputs = () => {
     // document.querySelector('select').innerHTML = html;
 
     // B:
-    document.querySelector('select').innerHTML = soapboxes.map(
-        soapbox => `<option value="${soapbox.id}">${soapbox.label}</option>`
+    document.querySelector('soapbox-wrapper').innerHTML = soapboxes.map(
+        soapbox => `<article>
+                    <h1>${soapbox.label}</h1>
+                    <div><span class="text-skeleton"></span></div>
+                    <address><span class="text-skeleton"></span></address>
+                    <time datetime="2024-09-03"><span class="text-skeleton"></span></time>
+                </article>`
     ).join('');
 
     // // C:
@@ -106,6 +115,13 @@ const populateFormInputs = () => {
 
 
 };
+
+
+const populatePlaceholders = () => {
+    document.querySelector('#soap-box-wrapper').innerHTML = soapboxes.map(
+        soapbox => `<option value="${soapbox.id}">${soapbox.label}</option>`
+    ).join('');
+    };
 
 document.addEventListener('DOMContentLoaded', () => {
     fetchData();

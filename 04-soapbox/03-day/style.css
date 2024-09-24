@@ -8,3 +8,10 @@ form .submit-wrapper {
     display: block;
     padding: 0.4em 0;
 }
+
+.text-skeleton {
+    display: inline-block;
+    height: 1em;
+    width: 12em;
+    background-color: #ddd;
+}
