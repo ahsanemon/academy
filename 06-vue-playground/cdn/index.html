@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My first vue app!</title>
+        <meta charset="utf-8">
+        <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    </head>
+    <body>
+        <div id ="app">
+            <!-- <p>Hello World!!! {{ message }} {{ 1+1 }} {{ message }} </p> -->
+            <p>Hello World!!! {{ message }}</p>
+            <!-- <input v-bind:value="message" v-on:input="onInput"/> -->
+            <input v-model="message"/>
+        </div>
+    </body>
+    <script>
+        const component = {
+            data () {
+                return {
+                    message: 'Powder sugar',
+                };
+            },
+            methods: {
+                onInput (event) {
+                    this.message = event.target.value;
+                    console.log('i clicked on it', event.target.value);
+                },
+            },
+        };
+        const app = Vue.createApp(component);
+        app.mount('#app')
+    </script>
+</html>
