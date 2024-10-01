@@ -5,7 +5,7 @@
 <template>
   <button @click="number--">-</button>
   <!-- <CounterDisplay v-bind:number="number"/> -->
-  <CounterDisplay :number="number"/>
+  <CounterDisplay :number="number" />
   <button @click="number++">+</button>
 </template>
 
