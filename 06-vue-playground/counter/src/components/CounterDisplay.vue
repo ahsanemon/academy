@@ -1,6 +1,15 @@
 <template>
   <div>
-    {{ number }} {{ sticks }}
+    <p class="number">{{ number }}</p>
+    <p class="sticks">
+        <span v-for="i in bigSticks" class="diamond"></span>
+        <!-- {{ sticks }} -->
+    </p>
+    
+    <p class="sticks">
+         <!-- <span class="diamond"></span> -->
+        {{ sticks }}
+    </p>
   </div>
 </template>
 
@@ -14,15 +23,80 @@
             },
         },
         computed: {
+            bigSticks () {
+                return Math.floor(this.number / 10);
+            },
             sticks () {
-                let out = '';
 
-                for (let i = 0; i < this.number; i++) {
-                    out += ' | ';  
+                const bigSticks = Math.floor(this.number / 10);
+                const smallSticks = this.number % 10;
+                // const smallSticks = this.number - bigSticks * 10;
+
+                let out = '';
+                
+                for (let i = 0; i < bigSticks; i++) {
+                    out += ' ❚ ';
+                    // out += '<span class="diamond"></span>';
                 }
 
+                for (let i = 0; i < smallSticks; i++) {
+                    out += ' | ';
+                }
+                // for (let i = 0; i < bigSticks + smallSticks; i++) {
+                //     if (i<= bigSticks) {
+                //         out += '❚';
+                //     }
+                //     else {
+                //         out += ' | ';
+                //     }
+                // }
+                
                 return out;
+                // return '❚❚|||' -> 23
             }
         },
     }
 </script>
+
+<style scoped>
+    .number {
+        font-size: 2em;
+        margin: 0;
+        text-align: center;
+    }
+
+    .sticks {
+
+    }
+
+    .sticks .diamond {
+        display: inline-block;
+        width: 1em;
+        height: 1em;
+        background: blue;
+        margin-right: 0.6em;
+        transform: rotate(45deg);
+        animation-name: diamond-anim;
+        animation-duration: 6s;
+        animation-iteration-count: infinite;
+        animation-timing-function: linear;
+        /* animation-timing-function: ease-in-out; */
+    }
+    @keyframes diamond-anim {
+        0% {
+            /* background: blue; */
+            /* transform: rotate(0deg); */
+            transform: translateY(0) rotate(-45deg);
+        }
+        50% {
+            /* background: blue; */
+            /* transform: rotate(0deg); */
+            transform: translateY(-1em) rotate(0);
+        }
+        100% {
+            /* background: red; */
+            /* transform: rotate(90deg); */
+            transform: translateY(0) rotate(45deg);
+        }
+    }
+</style>
