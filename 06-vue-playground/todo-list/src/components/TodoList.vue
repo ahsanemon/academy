@@ -9,14 +9,13 @@
         {{ addText }}
         
         <form @submit.prevent="onAdd">
-            <input type="text" v-model="addText"/>
+            <input type="text" v-model="addText" />
             <button type="submit">Add</button>
         </form>
     </div>
 </template>
 
 <script>
-
     const StatusEnum = Object.freeze({
         pending: 'pending', 
         done: 'done', 
@@ -57,8 +56,9 @@
             onAdd () {
                 this.items.push({
                     text: this.addText,
-                })
+                });
+                this.addText = '';
             },
-        }
+        },
     }
 </script>
