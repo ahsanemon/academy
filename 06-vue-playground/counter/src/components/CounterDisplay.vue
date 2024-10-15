@@ -2,7 +2,19 @@
   <div>
     <p class="number">{{ number }}</p>
     <p class="sticks">
-        <span v-for="i in bigSticks" class="diamond"></span>
+        <!-- hide stick for -ve value -->
+        <!-- <template v-if="bigSticks > 0">
+            <span 
+                v-for="i in bigSticks" 
+                class="diamond"
+            >
+            </span>
+        </template> -->
+        <span 
+            v-for="i in bigSticks" 
+            class="diamond"
+        >
+        </span>
         <!-- {{ sticks }} -->
     </p>
     
@@ -24,13 +36,18 @@
         },
         computed: {
             bigSticks () {
+                if (this.number < 0) {
+                    return 0
+                }
+                // return Math.max(Math.floor(this.number / 10), 0);
                 return Math.floor(this.number / 10);
             },
             sticks () {
 
-                const bigSticks = Math.floor(this.number / 10);
-                const smallSticks = this.number % 10;
-                // const smallSticks = this.number - bigSticks * 10;
+                const bigSticks = this.bigSticks;
+                // const bigSticks = Math.floor(this.number / 10);
+                // const smallSticks = this.number % 10;
+                const smallSticks = this.number - bigSticks * 10;
 
                 let out = '';
                 
