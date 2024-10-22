@@ -15,7 +15,7 @@
 
         <h2>Add an item</h2>
         <form @submit.prevent="onAdd">
-            <input type="text" v-model="addText" />
+            <input type="text" maxlength="64" v-model="addText" />
             <button type="submit" :disabled="!addText">Add</button>
         </form>
     </div>
