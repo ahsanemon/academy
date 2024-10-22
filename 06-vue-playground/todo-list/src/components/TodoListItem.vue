@@ -2,6 +2,10 @@
     <li :class="`is-${item.status}`">
         <span class="item-text">{{ item.text }}</span>
 
+        <template v-if="item.archived">
+            <button @click="setArchived(false)">Unarchive</button>
+            <button @click="deleteItem">Delete</button>
+        </template>
         <template v-if="item.status === 'pending'">
             <button @click="markAs('done')">Done</button>
             <button @click="markAs('canceled')">Cancel</button>
@@ -22,13 +26,16 @@
                 required: true,
             },
         },
-        emits: ['mark-as', 'set-archived'],
+        emits: ['mark-as', 'set-archived', 'delete-item'],
         methods: {
             markAs (status) {
                 this.$emit('mark-as', status);
             },
             setArchived (archived) {
                 this.$emit('set-archived', archived);
+            },
+            deleteItem() {
+                this.$emit('delete-item');
             },
         },
     }

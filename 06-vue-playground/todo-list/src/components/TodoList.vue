@@ -4,12 +4,16 @@
 
 <template>
     <div>
+        <label for="">
+            <input type="checkbox" v-model="displayArchivedItems"/> Display archived items
+        </label>
         <ul>
             <TodoListItem
                 v-for="item in visibleItems"
                 :item="item"
                 @mark-as="(status) => { item.status = status }"
                 @set-archived="(archived) => { item.archived = archived }"
+                @delete-item="deleteItem(item)"
             />
         </ul>
 
@@ -33,18 +37,21 @@
             return {
                 addText: '',
                 items: [],
+                displayArchivedItems: false,
             };
         
         },
         computed: {
-
             visibleItems () {
+                if (this.displayArchivedItems) {
+                    return this.items.filter(item => item.archived);
+                }
 
                 // return this.items.filter((item) => {
                 //     return !item.archived;
                 // });
 
-                // same thing but in short form
+                // same thing as above but in short from
                 return this.items.filter(item => !item.archived);
 
                 // const out = [];
@@ -68,6 +75,11 @@
                     color: 'black',
                 });
                 this.addText = '';
+            },
+            deleteItem(item) {
+                const index = this.items.indexOf(item);
+                this.items.splice(index, 1);
+                // this.items = this.items.filter(fItem => fItem !== item); // this goes through all the items regardless of the position of the item to be deleted. Expensive!!!
             },
         },
     }
