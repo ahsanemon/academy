@@ -6,7 +6,7 @@
     <div>
         <ul>
             <TodoListItem
-                v-for="item, index in visibleItems"
+                v-for="item in visibleItems"
                 :item="item"
                 @mark-as="(status) => { item.status = status }"
                 @set-archived="(archived) => { item.archived = archived }"
@@ -16,7 +16,7 @@
         <h2>Add an item</h2>
         <form @submit.prevent="onAdd">
             <input type="text" v-model="addText" />
-            <button type="submit">Add</button>
+            <button type="submit" :disabled="!addText">Add</button>
         </form>
     </div>
 </template>
@@ -39,19 +39,24 @@
         computed: {
 
             visibleItems () {
-                const out = [];
 
-                // FIXME index
-                // If archived from middle then index changes and any change on the item with higher index number than the previously archived
-                // item then it breaks and applies the action on the one item above.
-                for (const item of this.items){
-                    if (!item.archived) {
-                        out.push(item);
-                    }
-                }
+                // return this.items.filter((item) => {
+                //     return !item.archived;
+                // });
 
-                // FIXME .filter
-                return out;
+                // same thing but in short form
+                return this.items.filter(item => !item.archived);
+
+                // const out = [];
+
+                // for (const item of this.items){
+                //     if (!item.archived) {
+                //         out.push(item);
+                //     }
+                // }
+
+                // // FIXME .filter
+                // return out;
             },
         },
         methods: {
@@ -63,9 +68,6 @@
                     color: 'black',
                 });
                 this.addText = '';
-            },
-            markAs(index, status) {
-                this.items[index].status = status;
             },
         },
     }
