@@ -8,9 +8,8 @@
             <TodoListItem
                 v-for="item, index in visibleItems"
                 :item="item"
-                @mark-as="(status) => { markAs(index, status) }"
+                @mark-as="(status) => { item.status = status }"
                 @set-archived="(archived) => { item.archived = archived }"
-
             />
         </ul>
 
@@ -41,11 +40,17 @@
 
             visibleItems () {
                 const out = [];
+
+                // FIXME index
+                // If archived from middle then index changes and any change on the item with higher index number than the previously archived
+                // item then it breaks and applies the action on the one item above.
                 for (const item of this.items){
                     if (!item.archived) {
-                        out.push(item)
+                        out.push(item);
                     }
                 }
+
+                // FIXME .filter
                 return out;
             },
         },
